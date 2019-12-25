@@ -1,0 +1,2 @@
+include ':app', ':light-permission'
+rootProject.name='Light Permission Android'
