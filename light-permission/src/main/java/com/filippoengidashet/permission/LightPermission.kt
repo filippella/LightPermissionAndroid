@@ -52,7 +52,7 @@ class LightPermission constructor(private val context: Context, private val call
 
     @Synchronized
     fun check(vararg permissions: String): Boolean {
-        if (checking) return false
+        if (checking || permissions.isEmpty()) return false
         permissionResults.clear()
         if (PermissionUtils.isRuntimePermissionRequired()) {
             val permissionSet = permissions.toSet()

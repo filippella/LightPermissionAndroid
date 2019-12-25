@@ -36,8 +36,10 @@ class MainActivity : AppCompatActivity() {
                 handleResults(results, readContacts, sendSms)
             }
         })
-        lightPermission.check()
-        lightPermission.check(readContacts, sendSms)
+
+        if (!lightPermission.check(readContacts, sendSms)) {
+            showToast("Unable to check permissions!")
+        }
         //lightPermission.checkAllFromManifest() // from manifest
     }
 
