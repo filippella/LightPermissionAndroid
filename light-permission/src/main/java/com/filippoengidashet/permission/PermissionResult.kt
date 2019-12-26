@@ -7,6 +7,7 @@ import androidx.annotation.IntDef
 import com.filippoengidashet.permission.PermissionResult.State.Type.DENIED_SHOW_RATIONALE
 import com.filippoengidashet.permission.PermissionResult.State.Type.GRANTED
 import com.filippoengidashet.permission.PermissionResult.State.Type.PERMANENTLY_DENIED
+import com.filippoengidashet.permission.PermissionResult.State.Type.REVOKED_BY_POLICY
 
 /**
  * @author Filippo Engidashet
@@ -25,7 +26,7 @@ class PermissionResult(val permission: String?, @State val state: Int) : Parcela
     override fun describeContents() = 0
 
     @Retention(AnnotationRetention.RUNTIME)
-    @IntDef(GRANTED, DENIED_SHOW_RATIONALE, PERMANENTLY_DENIED)
+    @IntDef(GRANTED, DENIED_SHOW_RATIONALE, PERMANENTLY_DENIED, REVOKED_BY_POLICY)
     annotation class State {
 
         companion object Type {
@@ -33,12 +34,15 @@ class PermissionResult(val permission: String?, @State val state: Int) : Parcela
             const val GRANTED = 0
             const val DENIED_SHOW_RATIONALE = 1
             const val PERMANENTLY_DENIED = 2
+            const val REVOKED_BY_POLICY = 3
 
             fun from(@State state: Int): String {
                 return when (state) {
                     GRANTED -> "GRANTED"
                     DENIED_SHOW_RATIONALE -> "DENIED_SHOW_RATIONALE"
-                    else -> "PERMANENTLY_DENIED"
+                    PERMANENTLY_DENIED -> "PERMANENTLY_DENIED"
+                    REVOKED_BY_POLICY -> "REVOKED_BY_POLICY"
+                    else -> throw IllegalArgumentException("Invalid state.")
                 }
             }
         }

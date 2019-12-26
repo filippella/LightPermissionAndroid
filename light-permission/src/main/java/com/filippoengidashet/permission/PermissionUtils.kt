@@ -1,9 +1,11 @@
 package com.filippoengidashet.permission
 
+import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
@@ -27,5 +29,12 @@ object PermissionUtils {
     @JvmStatic
     fun shouldShowPermissionRationale(activity: Activity, permission: String): Boolean {
         return ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    @TargetApi(Build.VERSION_CODES.M)
+    @JvmStatic
+    fun isPermissionRevokedByPolicy(context: Context, permission: String): Boolean {
+        return context.packageManager.isPermissionRevokedByPolicy(permission, context.packageName)
     }
 }

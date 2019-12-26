@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 
@@ -24,10 +23,6 @@ internal class PermissionActivity : AppCompatActivity() {
             permissions.toTypedArray(),
             REQUEST_CODE_PERMISSIONS
         )
-    }
-
-    private fun showToast(message: String) {
-        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onRequestPermissionsResult(
@@ -74,6 +69,11 @@ internal class PermissionActivity : AppCompatActivity() {
             sendBroadcast(intent)
         }
         super.onDestroy()
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(0, 0)
     }
 
     companion object {

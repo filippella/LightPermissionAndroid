@@ -58,13 +58,19 @@ class LightPermission constructor(private val context: Context, private val call
             val permissionSet = permissions.toSet()
             val permissionList = arrayListOf<String>()
             for (permission in permissionSet) {
-                if (PermissionUtils.isPermissionGranted(context, permission)) {
-                    permissionResults.add(PermissionResult(permission,
-                        PermissionResult.State.GRANTED
-                    )
-                    )
-                } else {
-                    permissionList.add(permission)
+                when {
+                    PermissionUtils.isPermissionGranted(context, permission) -> {
+                        val result = PermissionResult(permission, PermissionResult.State.GRANTED)
+                        permissionResults.add(result)
+                    }
+                    PermissionUtils.isPermissionRevokedByPolicy(context, permission) -> {
+                        val result =
+                            PermissionResult(permission, PermissionResult.State.REVOKED_BY_POLICY)
+                        permissionResults.add(result)
+                    }
+                    else -> {
+                        permissionList.add(permission)
+                    }
                 }
             }
             if (permissionList.isNotEmpty()) {
